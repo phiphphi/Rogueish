@@ -6,7 +6,7 @@ import asciiPanel.AsciiPanel;
 public class LoseScreen implements Screen {
 
 	public void displayOutput(AsciiPanel terminal) {
-		terminal.write("You suck.", 1, 1);
+		terminal.writeCenter("You suck.", 21);
 		terminal.writeCenter("-- press [enter] to restart --", 22);
 	}
 	
