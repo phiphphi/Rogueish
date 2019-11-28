@@ -18,8 +18,8 @@ public class PlayScreen implements Screen {
 	private FieldOfView fov;
 	
 	public PlayScreen() {
-		screenWidth = 132;
-		screenHeight = 42;
+		screenWidth = 110;
+		screenHeight = 38;
 		messages = new ArrayList<String>();
 		history  = new ArrayList<String>();
 		createWorld();
@@ -33,7 +33,7 @@ public class PlayScreen implements Screen {
 		player = creatureFactory.newPlayer(messages, fov);
 		
 		for (int z = 0; z < world.depth(); z++) {
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 16; i++) {
 				creatureFactory.newFungus(z);
 			}
 			
@@ -44,7 +44,7 @@ public class PlayScreen implements Screen {
 	}
 		
 	private void createWorld() {
-		world = new WorldBuilder(132, 42, 5)
+		world = new WorldBuilder(132, 60, 5)
 				.makeCaves()
 				.build();
 	}
@@ -61,8 +61,8 @@ public class PlayScreen implements Screen {
 		
 		String stats = String.format(" %3d/%3d hp", player.hp(), player.maxHp());
 		String health = "|" + displayHealth(player.hp(), player.maxHp()) + "|";
-		terminal.write(stats, 139, 4);
-		terminal.write(health, 139, 5);
+		terminal.write(stats, 5, 40);
+		terminal.write(health, 5, 41);
 	}
 	
 	public Screen respondToUserInput(KeyEvent key) {
@@ -123,16 +123,37 @@ public class PlayScreen implements Screen {
 		}
 	}
 	
+	// this is just an absolute clusterfuck.
 	// Fix to display a history of messages
 	public void displayMessages(AsciiPanel terminal, List<String> messages) {
-		int top = screenHeight - messages.size();
-		for (int i = 0; i < messages.size(); i++) {
-			history.add(messages.get(i));
-			terminal.writeCenter(history.get(i), top + i);
+		int top = screenHeight - history.size() - 20;
+		
+		// display box to hold messages
+		for (int i = 0; i <= 20; i++) {
+			terminal.write('|', 111, screenHeight + i - 30);
+			terminal.write('|', 145, screenHeight + i - 30);
+		}
+		for (int i = 0; i <= 34; i++) {
+			terminal.write('_', 111 + i, 7);
+			if (i == 0 || i == 34) 
+				terminal.write('|', 111 + i, 28);
+			else
+				terminal.write('_', 111 + i, 28);
 		}
 		
+		for (String message : messages) {
+			history.add(message);
+		}
 		messages.clear();
-		if (history.size() > 3) {
+		
+		int i = 0;
+		Iterator<String> itr = history.iterator();
+		while(itr.hasNext()) {
+			terminal.write(itr.next(), 112, screenHeight + i - 30);
+			i++;
+		}
+		
+		while (history.size() >= 20) {
 			history.remove(0);
 		}
 	}
