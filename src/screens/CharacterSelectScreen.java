@@ -8,14 +8,15 @@ import asciiPanel.AsciiPanel;
 public class CharacterSelectScreen implements Screen {
 	
 	private List<Integer> stats;
-    public List<Integer> Stats() { return stats; }
+    public List<Integer> stats() { return stats; }
 	
 	public CharacterSelectScreen() {
 		stats = new ArrayList<Integer>(5);
 	}
 	
 	public void displayOutput(AsciiPanel terminal) {
-		terminal.writeCenter("Who will you be?", 10);
+		terminal.writeCenter("Mandatory Extractor Attribute Test", 10);
+		terminal.writeCenter("(M.E.A.T.)", 11);
 		
 		displayStats(terminal);
 		
@@ -25,8 +26,8 @@ public class CharacterSelectScreen implements Screen {
 	
 	public Screen respondToUserInput(KeyEvent key) {
 		switch(key.getKeyCode()) {
-		case KeyEvent.VK_ENTER: return new PlayScreen();
-		case KeyEvent.VK_T: return new PlayScreen();
+		case KeyEvent.VK_ENTER: return new PlayScreen(stats);
+		case KeyEvent.VK_T: return new PlayScreen(stats);
 		}
 		
 		return this;

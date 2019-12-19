@@ -1,11 +1,10 @@
 package main;
 
 import javax.swing.JFrame;
-import asciiPanel.AsciiPanel;
+import asciiPanel.*;
 import java.io.*;
 import java.awt.event.*;
 import screens.*;
-import java.util.*;
 
 public class ApplicationMain extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1060623638149583738L;

@@ -73,8 +73,9 @@ public class WorldBuilder {
 		return this;
 	}
 	
+	@SuppressWarnings("unused")
 	private void contourBomber() {
-		// implent contour bombing algorithm
+		// implement contour bombing algorithm
 	}
 	
 	public WorldBuilder makeCaves() {
@@ -93,7 +94,8 @@ public class WorldBuilder {
                    if (tiles[x][y][z] != Tile.WALL && regions[x][y][z] == 0){
                        int size = fillRegion(nextRegion++, x, y, z);
               
-                       if (size < 25)
+                       // base: 25
+                       if (size < 250)
                            removeRegion(nextRegion - 1, z);
                    }
                 }
@@ -138,7 +140,7 @@ public class WorldBuilder {
 		return size;
 	}
 	
-	public WorldBuilder connectRegions(){
+	public WorldBuilder connectRegions() {
 		for (int z = 0; z < depth-1; z++){
 			connectRegionsDown(z);
 		}
@@ -165,13 +167,16 @@ public class WorldBuilder {
 		List<Point> candidates = findRegionOverlaps(z, r1, r2);
 		
 		int stairs = 0;
-		do{
+		
+		do {
 			Point p = candidates.remove(0);
 			tiles[p.x][p.y][z] = Tile.STAIRS_DOWN;
 			tiles[p.x][p.y][z+1] = Tile.STAIRS_UP;
 			stairs++;
 		}
-		while (candidates.size() / stairs > 5000);
+		
+		// base: 5000
+		while (candidates.size() / stairs > 250);
 	}
 
 	public List<Point> findRegionOverlaps(int z, int r1, int r2) {

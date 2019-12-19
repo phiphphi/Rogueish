@@ -1,4 +1,6 @@
-package creatures;
+package creatures.creatureai;
+
+import creatures.Creature;
 
 public class BatAi extends CreatureAi {
 	
